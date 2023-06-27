@@ -1,7 +1,12 @@
 import { memo, useEffect, useState } from "react";
 import { PostProvider, usePosts } from "../src/PostContext";
-import signOutUser from "./pages/SuccessPage";
+import { createClient } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom";
 
+const supabase = createClient(
+  "https://wjeinffbnzrudlwfidau.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqZWluZmZibnpydWRsd2ZpZGF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc2NzY2MjYsImV4cCI6MjAwMzI1MjYyNn0.j8EuDJhCKt0OJeWtKf_0Nh3M9tmZLi1Luy3FLApIFDY"
+);
 function Apps() {
   return (
     <section>
@@ -41,6 +46,15 @@ function Header() {
 }
 
 function SearchPosts() {
+  const navigate = useNavigate;
+  async function logout() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.log(error);
+    } else {
+      navigate("/");
+    }
+  }
   const { searchQuery, setSearchQuery } = usePosts();
 
   return (
@@ -50,7 +64,7 @@ function SearchPosts() {
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search"
       />
-      <button onClick={signOutUser}>Signout</button>
+      <button onClick={logout}>Logout</button>
     </div>
   );
 }

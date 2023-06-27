@@ -41,9 +41,9 @@ function SuccessPage() {
       <header className="App-header">
         {Object.keys(user).length !== 0 ? (
           <div>
-            <div>
-              <h1>Success</h1>
-              <button onClick={signOutUser}>Logout</button>
+            <div className="container">
+              {/* <h1>Success</h1> */}
+              {/* <button onClick={signOutUser}>Logout</button> */}
             </div>
             <Apps />
           </div>
